@@ -1,662 +1,332 @@
-<html class="scroll-smooth" lang="en">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1" name="viewport"/>
-  <title>
-   Smart Home Control Dashboard
-  </title>
-  <script src="https://cdn.tailwindcss.com">
-  </script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
-  <style>
-   html,
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #121212;
-      color: #e0e0e0;
-    }
-    /* Neumorphic style for toggles and sliders */
-    .neumorphic {
-      background: #1e1e1e;
-      box-shadow:
-        4px 4px 6px #0a0a0a,
-        -4px -4px 6px #2c2c2c;
-      border-radius: 12px;
-      transition: box-shadow 0.2s ease;
-    }
-    .neumorphic:active {
-      box-shadow:
-        inset 4px 4px 6px #0a0a0a,
-        inset -4px -4px 6px #2c2c2c;
-    }
-    /* Toggle switch */
-    .toggle-checkbox:checked + .toggle-label {
-      background-color: #4ade80;
-      box-shadow:
-        inset 4px 4px 6px #3bbf5a,
-        inset -4px -4px 6px #56d97a;
-    }
-    .toggle-checkbox:checked + .toggle-label .toggle-button {
-      transform: translateX(1.5rem);
-      background-color: #166534;
-      box-shadow:
-        2px 2px 4px #0f3d1a,
-        -2px -2px 4px #1e6a2b;
-    }
-    /* Slider thumb */
-    input[type='range']::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 24px;
-      height: 24px;
-      background: #4ade80;
-      border-radius: 50%;
-      cursor: pointer;
-      box-shadow:
-        2px 2px 4px #3bbf5a,
-        -2px -2px 4px #56d97a;
-      transition: background-color 0.2s ease;
-      border: none;
-      margin-top: -10px;
-      position: relative;
-      z-index: 10;
-    }
-    input[type='range']::-webkit-slider-thumb:active {
-      background: #166534;
-      box-shadow:
-        inset 2px 2px 4px #0f3d1a,
-        inset -2px -2px 4px #1e6a2b;
-    }
-    input[type='range']::-moz-range-thumb {
-      width: 24px;
-      height: 24px;
-      background: #4ade80;
-      border-radius: 50%;
-      cursor: pointer;
-      box-shadow:
-        2px 2px 4px #3bbf5a,
-        -2px -2px 4px #56d97a;
-      border: none;
-      transition: background-color 0.2s ease;
-      position: relative;
-      z-index: 10;
-    }
-    input[type='range']::-moz-range-thumb:active {
-      background: #166534;
-      box-shadow:
-        inset 2px 2px 4px #0f3d1a,
-        inset -2px -2px 4px #1e6a2b;
-    }
-  </style>
- </head>
- <body class="min-h-screen flex flex-col">
-  <header class="flex items-center justify-between px-6 py-4 border-b border-gray-700">
-   <h1 class="text-2xl font-semibold tracking-wide">
-    Smart Home Dashboard
-   </h1>
-   <button aria-label="Toggle Dark Mode" class="text-gray-400 hover:text-green-400 focus:outline-none focus:ring-2 focus:ring-green-400 rounded" id="toggleDarkMode" title="Toggle Dark Mode">
-    <i class="fas fa-moon fa-lg">
-    </i>
-   </button>
-  </header>
-  <main class="flex-grow px-4 py-6 max-w-7xl mx-auto w-full">
-   <section aria-label="Scenes" class="mb-8">
-    <h2 class="text-xl font-semibold mb-4">
-     Scenes
-    </h2>
-    <div class="flex flex-wrap gap-4">
-     <button aria-pressed="false" class="neumorphic px-5 py-3 rounded-lg flex items-center gap-3 cursor-pointer hover:shadow-green-400 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition" data-scene="movieNight" type="button">
-      <i class="fas fa-film text-green-400 text-lg">
-      </i>
-      <span>
-       Movie Night
-      </span>
-     </button>
-     <button aria-pressed="false" class="neumorphic px-5 py-3 rounded-lg flex items-center gap-3 cursor-pointer hover:shadow-green-400 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition" data-scene="awayMode" type="button">
-      <i class="fas fa-plane-departure text-green-400 text-lg">
-      </i>
-      <span>
-       Away Mode
-      </span>
-     </button>
-     <button aria-pressed="false" class="neumorphic px-5 py-3 rounded-lg flex items-center gap-3 cursor-pointer hover:shadow-green-400 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition" data-scene="goodMorning" type="button">
-      <i class="fas fa-sun text-green-400 text-lg">
-      </i>
-      <span>
-       Good Morning
-      </span>
-     </button>
-     <button aria-pressed="false" class="neumorphic px-5 py-3 rounded-lg flex items-center gap-3 cursor-pointer hover:shadow-green-400 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition" data-scene="nightMode" type="button">
-      <i class="fas fa-moon-stars text-green-400 text-lg">
-      </i>
-      <span>
-       Night Mode
-      </span>
-     </button>
-     <button aria-pressed="false" class="neumorphic px-5 py-3 rounded-lg flex items-center gap-3 cursor-pointer hover:shadow-green-400 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition" data-scene="party" type="button">
-      <i class="fas fa-glass-cheers text-green-400 text-lg">
-      </i>
-      <span>
-       Party
-      </span>
-     </button>
-    </div>
-   </section>
-   <section aria-label="Rooms and Devices" class="space-y-10">
-    <!-- Living Room -->
-    <div class="room-group neumorphic p-6 rounded-2xl shadow-lg">
-     <div class="flex items-center justify-between mb-6">
-      <h3 class="text-lg font-semibold">
-       Living Room
-      </h3>
-      <button aria-label="Toggle all devices in Living Room" class="toggle-switch flex items-center cursor-pointer select-none" type="button">
-       <input aria-checked="false" class="toggle-checkbox hidden" id="livingRoomToggle" type="checkbox"/>
-       <label class="toggle-label block w-12 h-6 rounded-full relative neumorphic" for="livingRoomToggle" tabindex="0">
-        <span class="toggle-button absolute left-0 top-0.5 w-5 h-5 bg-gray-800 rounded-full shadow-md transition-transform">
-        </span>
-       </label>
-      </button>
-     </div>
-     <div aria-label="Devices in Living Room" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6" role="list">
-      <!-- Light -->
-      <article class="device-card neumorphic p-4 rounded-xl flex flex-col items-center text-center" data-device-id="lr-light-1" data-device-type="light" data-room="Living Room" role="listitem">
-       <img alt="Minimalist icon of a glowing light bulb with green glow representing a smart light in the living room" class="mb-3" height="64" loading="lazy" src="https://storage.googleapis.com/a1aa/image/24c1c5a7-e7d5-4c5d-6eee-4d5e2977c77c.jpg" width="64"/>
-       <h4 class="font-semibold mb-1">
-        Ceiling Light
-       </h4>
-       <button aria-label="Toggle Ceiling Light" class="toggle-switch flex items-center cursor-pointer select-none" type="button">
-        <input aria-checked="false" class="toggle-checkbox hidden" id="lr-light-1-toggle" type="checkbox"/>
-        <label class="toggle-label block w-12 h-6 rounded-full relative neumorphic" for="lr-light-1-toggle" tabindex="0">
-         <span class="toggle-button absolute left-0 top-0.5 w-5 h-5 bg-gray-800 rounded-full shadow-md transition-transform">
-         </span>
-        </label>
-       </button>
-       <span aria-atomic="true" aria-live="polite" class="mt-2 text-sm text-green-400 font-medium" id="lr-light-1-status">
-        Off
-       </span>
-      </article>
-      <!-- Thermostat -->
-      <article class="device-card neumorphic p-4 rounded-xl flex flex-col items-center text-center" data-device-id="lr-thermostat-1" data-device-type="thermostat" data-room="Living Room" role="listitem">
-       <img alt="Minimalist icon of a thermostat dial with temperature display representing smart thermostat in the living room" class="mb-3" height="64" loading="lazy" src="https://storage.googleapis.com/a1aa/image/f1afe70e-0682-4368-06d0-34b5d75502c2.jpg" width="64"/>
-       <h4 class="font-semibold mb-1">
-        Thermostat
-       </h4>
-       <input aria-label="Set thermostat temperature" aria-valuemax="80" aria-valuemin="60" aria-valuenow="72" class="w-full mt-2 neumorphic h-6 rounded-lg cursor-pointer" id="lr-thermostat-1-slider" max="80" min="60" step="1" type="range" value="72"/>
-       <span aria-atomic="true" aria-live="polite" class="mt-2 text-sm text-green-400 font-medium" id="lr-thermostat-1-status">
-        72°F
-       </span>
-      </article>
-      <!-- Lock -->
-      <article class="device-card neumorphic p-4 rounded-xl flex flex-col items-center text-center" data-device-id="lr-lock-1" data-device-type="lock" data-room="Living Room" role="listitem">
-       <img alt="Minimalist icon of a locked padlock representing smart lock in the living room" class="mb-3" height="64" loading="lazy" src="https://storage.googleapis.com/a1aa/image/3cc86438-bd5d-4385-877a-bebaf0b29610.jpg" width="64"/>
-       <h4 class="font-semibold mb-1">
-        Front Door Lock
-       </h4>
-       <button aria-label="Toggle Front Door Lock" class="toggle-switch flex items-center cursor-pointer select-none" type="button">
-        <input aria-checked="true" checked="" class="toggle-checkbox hidden" id="lr-lock-1-toggle" type="checkbox"/>
-        <label class="toggle-label block w-12 h-6 rounded-full relative neumorphic" for="lr-lock-1-toggle" tabindex="0">
-         <span class="toggle-button absolute left-6 top-0.5 w-5 h-5 bg-gray-800 rounded-full shadow-md transition-transform">
-         </span>
-        </label>
-       </button>
-       <span aria-atomic="true" aria-live="polite" class="mt-2 text-sm text-green-400 font-medium" id="lr-lock-1-status">
-        Locked
-       </span>
-      </article>
-      <!-- Camera -->
-      <article class="device-card neumorphic p-4 rounded-xl flex flex-col items-center text-center" data-device-id="lr-camera-1" data-device-type="camera" data-room="Living Room" role="listitem">
-       <img alt="Minimalist icon of a security camera representing smart camera in the living room" class="mb-3" height="64" loading="lazy" src="https://storage.googleapis.com/a1aa/image/b19cf0ec-29c0-4d38-914a-ebba1c79d53f.jpg" width="64"/>
-       <h4 class="font-semibold mb-1">
-        Security Camera
-       </h4>
-       <button aria-label="Toggle Security Camera" class="toggle-switch flex items-center cursor-pointer select-none" type="button">
-        <input aria-checked="true" checked="" class="toggle-checkbox hidden" id="lr-camera-1-toggle" type="checkbox"/>
-        <label class="toggle-label block w-12 h-6 rounded-full relative neumorphic" for="lr-camera-1-toggle" tabindex="0">
-         <span class="toggle-button absolute left-6 top-0.5 w-5 h-5 bg-gray-800 rounded-full shadow-md transition-transform">
-         </span>
-        </label>
-       </button>
-       <span aria-atomic="true" aria-live="polite" class="mt-2 text-sm text-green-400 font-medium" id="lr-camera-1-status">
-        On
-       </span>
-      </article>
-     </div>
-    </div>
-    <!-- Bedroom -->
-    <div class="room-group neumorphic p-6 rounded-2xl shadow-lg">
-     <div class="flex items-center justify-between mb-6">
-      <h3 class="text-lg font-semibold">
-       Bedroom
-      </h3>
-      <button aria-label="Toggle all devices in Bedroom" class="toggle-switch flex items-center cursor-pointer select-none" type="button">
-       <input aria-checked="false" class="toggle-checkbox hidden" id="bedroomToggle" type="checkbox"/>
-       <label class="toggle-label block w-12 h-6 rounded-full relative neumorphic" for="bedroomToggle" tabindex="0">
-        <span class="toggle-button absolute left-0 top-0.5 w-5 h-5 bg-gray-800 rounded-full shadow-md transition-transform">
-        </span>
-       </label>
-      </button>
-     </div>
-     <div aria-label="Devices in Bedroom" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6" role="list">
-      <!-- Light -->
-      <article class="device-card neumorphic p-4 rounded-xl flex flex-col items-center text-center" data-device-id="br-light-1" data-device-type="light" data-room="Bedroom" role="listitem">
-       <img alt="Minimalist icon of a glowing light bulb with green glow representing a smart light in the bedroom" class="mb-3" height="64" loading="lazy" src="https://storage.googleapis.com/a1aa/image/fe5a8dc6-a693-42ab-892b-12684fdfacdd.jpg" width="64"/>
-       <h4 class="font-semibold mb-1">
-        Bedside Lamp
-       </h4>
-       <button aria-label="Toggle Bedside Lamp" class="toggle-switch flex items-center cursor-pointer select-none" type="button">
-        <input aria-checked="true" checked="" class="toggle-checkbox hidden" id="br-light-1-toggle" type="checkbox"/>
-        <label class="toggle-label block w-12 h-6 rounded-full relative neumorphic" for="br-light-1-toggle" tabindex="0">
-         <span class="toggle-button absolute left-6 top-0.5 w-5 h-5 bg-gray-800 rounded-full shadow-md transition-transform">
-         </span>
-        </label>
-       </button>
-       <span aria-atomic="true" aria-live="polite" class="mt-2 text-sm text-green-400 font-medium" id="br-light-1-status">
-        On
-       </span>
-      </article>
-      <!-- Thermostat -->
-      <article class="device-card neumorphic p-4 rounded-xl flex flex-col items-center text-center" data-device-id="br-thermostat-1" data-device-type="thermostat" data-room="Bedroom" role="listitem">
-       <img alt="Minimalist icon of a thermostat dial with temperature display representing smart thermostat in the bedroom" class="mb-3" height="64" loading="lazy" src="https://storage.googleapis.com/a1aa/image/ed828894-0145-430c-0b95-c27fa56a3c72.jpg" width="64"/>
-       <h4 class="font-semibold mb-1">
-        Thermostat
-       </h4>
-       <input aria-label="Set thermostat temperature" aria-valuemax="80" aria-valuemin="60" aria-valuenow="70" class="w-full mt-2 neumorphic h-6 rounded-lg cursor-pointer" id="br-thermostat-1-slider" max="80" min="60" step="1" type="range" value="70"/>
-       <span aria-atomic="true" aria-live="polite" class="mt-2 text-sm text-green-400 font-medium" id="br-thermostat-1-status">
-        70°F
-       </span>
-      </article>
-      <!-- Lock -->
-      <article class="device-card neumorphic p-4 rounded-xl flex flex-col items-center text-center" data-device-id="br-lock-1" data-device-type="lock" data-room="Bedroom" role="listitem">
-       <img alt="Minimalist icon of an unlocked padlock representing smart lock in the bedroom" class="mb-3" height="64" loading="lazy" src="https://storage.googleapis.com/a1aa/image/edcdb2d3-764d-4c4b-6c54-08d8d0487e4c.jpg" width="64"/>
-       <h4 class="font-semibold mb-1">
-        Balcony Door Lock
-       </h4>
-       <button aria-label="Toggle Balcony Door Lock" class="toggle-switch flex items-center cursor-pointer select-none" type="button">
-        <input aria-checked="false" class="toggle-checkbox hidden" id="br-lock-1-toggle" type="checkbox"/>
-        <label class="toggle-label block w-12 h-6 rounded-full relative neumorphic" for="br-lock-1-toggle" tabindex="0">
-         <span class="toggle-button absolute left-0 top-0.5 w-5 h-5 bg-gray-800 rounded-full shadow-md transition-transform">
-         </span>
-        </label>
-       </button>
-       <span aria-atomic="true" aria-live="polite" class="mt-2 text-sm text-green-400 font-medium" id="br-lock-1-status">
-        Unlocked
-       </span>
-      </article>
-      <!-- Camera -->
-      <article class="device-card neumorphic p-4 rounded-xl flex flex-col items-center text-center" data-device-id="br-camera-1" data-device-type="camera" data-room="Bedroom" role="listitem">
-       <img alt="Minimalist icon of a security camera representing smart camera in the bedroom" class="mb-3" height="64" loading="lazy" src="https://storage.googleapis.com/a1aa/image/19215241-6a1f-4b26-d480-378d78fa5f4d.jpg" width="64"/>
-       <h4 class="font-semibold mb-1">
-        Baby Monitor Camera
-       </h4>
-       <button aria-label="Toggle Baby Monitor Camera" class="toggle-switch flex items-center cursor-pointer select-none" type="button">
-        <input aria-checked="true" checked="" class="toggle-checkbox hidden" id="br-camera-1-toggle" type="checkbox"/>
-        <label class="toggle-label block w-12 h-6 rounded-full relative neumorphic" for="br-camera-1-toggle" tabindex="0">
-         <span class="toggle-button absolute left-6 top-0.5 w-5 h-5 bg-gray-800 rounded-full shadow-md transition-transform">
-         </span>
-        </label>
-       </button>
-       <span aria-atomic="true" aria-live="polite" class="mt-2 text-sm text-green-400 font-medium" id="br-camera-1-status">
-        On
-       </span>
-      </article>
-     </div>
-    </div>
-    <!-- Kitchen -->
-    <div class="room-group neumorphic p-6 rounded-2xl shadow-lg">
-     <div class="flex items-center justify-between mb-6">
-      <h3 class="text-lg font-semibold">
-       Kitchen
-      </h3>
-      <button aria-label="Toggle all devices in Kitchen" class="toggle-switch flex items-center cursor-pointer select-none" type="button">
-       <input aria-checked="false" class="toggle-checkbox hidden" id="kitchenToggle" type="checkbox"/>
-       <label class="toggle-label block w-12 h-6 rounded-full relative neumorphic" for="kitchenToggle" tabindex="0">
-        <span class="toggle-button absolute left-0 top-0.5 w-5 h-5 bg-gray-800 rounded-full shadow-md transition-transform">
-        </span>
-       </label>
-      </button>
-     </div>
-     <div aria-label="Devices in Kitchen" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6" role="list">
-      <!-- Light -->
-      <article class="device-card neumorphic p-4 rounded-xl flex flex-col items-center text-center" data-device-id="k-light-1" data-device-type="light" data-room="Kitchen" role="listitem">
-       <img alt="Minimalist icon of a glowing light bulb with green glow representing a smart light in the kitchen" class="mb-3" height="64" loading="lazy" src="https://storage.googleapis.com/a1aa/image/f9eec6a7-e6d6-4326-ef96-f1bb60fc7179.jpg" width="64"/>
-       <h4 class="font-semibold mb-1">
-        Overhead Light
-       </h4>
-       <button aria-label="Toggle Overhead Light" class="toggle-switch flex items-center cursor-pointer select-none" type="button">
-        <input aria-checked="true" checked="" class="toggle-checkbox hidden" id="k-light-1-toggle" type="checkbox"/>
-        <label class="toggle-label block w-12 h-6 rounded-full relative neumorphic" for="k-light-1-toggle" tabindex="0">
-         <span class="toggle-button absolute left-6 top-0.5 w-5 h-5 bg-gray-800 rounded-full shadow-md transition-transform">
-         </span>
-        </label>
-       </button>
-       <span aria-atomic="true" aria-live="polite" class="mt-2 text-sm text-green-400 font-medium" id="k-light-1-status">
-        On
-       </span>
-      </article>
-      <!-- Thermostat -->
-      <article class="device-card neumorphic p-4 rounded-xl flex flex-col items-center text-center" data-device-id="k-thermostat-1" data-device-type="thermostat" data-room="Kitchen" role="listitem">
-       <img alt="Minimalist icon of a thermostat dial with temperature display representing smart thermostat in the kitchen" class="mb-3" height="64" loading="lazy" src="https://storage.googleapis.com/a1aa/image/08881c02-7ee7-4027-fe47-9a0088e7e3aa.jpg" width="64"/>
-       <h4 class="font-semibold mb-1">
-        Thermostat
-       </h4>
-       <input aria-label="Set thermostat temperature" aria-valuemax="80" aria-valuemin="60" aria-valuenow="68" class="w-full mt-2 neumorphic h-6 rounded-lg cursor-pointer" id="k-thermostat-1-slider" max="80" min="60" step="1" type="range" value="68"/>
-       <span aria-atomic="true" aria-live="polite" class="mt-2 text-sm text-green-400 font-medium" id="k-thermostat-1-status">
-        68°F
-       </span>
-      </article>
-      <!-- Lock -->
-      <article class="device-card neumorphic p-4 rounded-xl flex flex-col items-center text-center" data-device-id="k-lock-1" data-device-type="lock" data-room="Kitchen" role="listitem">
-       <img alt="Minimalist icon of a locked padlock representing smart lock in the kitchen" class="mb-3" height="64" loading="lazy" src="https://storage.googleapis.com/a1aa/image/e252fd41-8672-4e95-bca1-0f5207948f7c.jpg" width="64"/>
-       <h4 class="font-semibold mb-1">
-        Pantry Door Lock
-       </h4>
-       <button aria-label="Toggle Pantry Door Lock" class="toggle-switch flex items-center cursor-pointer select-none" type="button">
-        <input aria-checked="true" checked="" class="toggle-checkbox hidden" id="k-lock-1-toggle" type="checkbox"/>
-        <label class="toggle-label block w-12 h-6 rounded-full relative neumorphic" for="k-lock-1-toggle" tabindex="0">
-         <span class="toggle-button absolute left-6 top-0.5 w-5 h-5 bg-gray-800 rounded-full shadow-md transition-transform">
-         </span>
-        </label>
-       </button>
-       <span aria-atomic="true" aria-live="polite" class="mt-2 text-sm text-green-400 font-medium" id="k-lock-1-status">
-        Locked
-       </span>
-      </article>
-      <!-- Camera -->
-      <article class="device-card neumorphic p-4 rounded-xl flex flex-col items-center text-center" data-device-id="k-camera-1" data-device-type="camera" data-room="Kitchen" role="listitem">
-       <img alt="Minimalist icon of a security camera representing smart camera in the kitchen" class="mb-3" height="64" loading="lazy" src="https://storage.googleapis.com/a1aa/image/2f92578a-8f3f-4bd6-3edf-f34bef0ee9d6.jpg" width="64"/>
-       <h4 class="font-semibold mb-1">
-        Kitchen Camera
-       </h4>
-       <button aria-label="Toggle Kitchen Camera" class="toggle-switch flex items-center cursor-pointer select-none" type="button">
-        <input aria-checked="false" class="toggle-checkbox hidden" id="k-camera-1-toggle" type="checkbox"/>
-        <label class="toggle-label block w-12 h-6 rounded-full relative neumorphic" for="k-camera-1-toggle" tabindex="0">
-         <span class="toggle-button absolute left-0 top-0.5 w-5 h-5 bg-gray-800 rounded-full shadow-md transition-transform">
-         </span>
-        </label>
-       </button>
-       <span aria-atomic="true" aria-live="polite" class="mt-2 text-sm text-green-400 font-medium" id="k-camera-1-status">
-        Off
-       </span>
-      </article>
-     </div>
-    </div>
-   </section>
-  </main>
-  <footer class="px-6 py-4 border-t border-gray-700 text-center text-sm text-gray-500">
-   © 2025 (ISR) Smart Home Inc.
-  </footer>
-  <script>
-   // Utility: Update device status text based on toggle or slider
-    function updateDeviceStatus(deviceCard) {
-      const type = deviceCard.dataset.deviceType;
-      const id = deviceCard.dataset.deviceId;
-      if (type === 'light' || type === 'lock' || type === 'camera') {
-        const toggle = deviceCard.querySelector('input[type="checkbox"]');
-        const statusEl = deviceCard.querySelector('span[aria-live]');
-        if (!toggle || !statusEl) return;
-        let statusText = 'Off';
-        if (type === 'light') {
-          statusText = toggle.checked ? 'On' : 'Off';
-        } else if (type === 'lock') {
-          statusText = toggle.checked ? 'Locked' : 'Unlocked';
-        } else if (type === 'camera') {
-          statusText = toggle.checked ? 'On' : 'Off';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soundverse AI | Create Music with Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        
+        :root {
+            --sv-blue: #4F46E5;
+            --sv-bg: #0A0A0B;
         }
-        statusEl.textContent = statusText;
-        toggle.setAttribute('aria-checked', toggle.checked);
-      } else if (type === 'thermostat') {
-        const slider = deviceCard.querySelector('input[type="range"]');
-        const statusEl = deviceCard.querySelector('span[aria-live]');
-        if (!slider || !statusEl) return;
-        statusEl.textContent = slider.value + '°F';
-        slider.setAttribute('aria-valuenow', slider.value);
-      }
-    }
 
-    // Update all devices initially
-    document.querySelectorAll('.device-card').forEach(updateDeviceStatus);
-
-    // Add event listeners for toggles and sliders
-    document.querySelectorAll('.device-card input[type="checkbox"]').forEach((checkbox) => {
-      checkbox.addEventListener('change', (e) => {
-        const deviceCard = e.target.closest('.device-card');
-        updateDeviceStatus(deviceCard);
-        updateRoomToggle(deviceCard.dataset.room);
-      });
-    });
-
-    document.querySelectorAll('.device-card input[type="range"]').forEach((slider) => {
-      slider.addEventListener('input', (e) => {
-        const deviceCard = e.target.closest('.device-card');
-        updateDeviceStatus(deviceCard);
-      });
-    });
-
-    // Room toggle controls all devices in that room
-    function updateRoomToggle(roomName) {
-      const roomGroup = [...document.querySelectorAll('.room-group')].find(
-        (group) => group.querySelector('h3').textContent === roomName
-      );
-      if (!roomGroup) return;
-      const roomToggle = roomGroup.querySelector('input[type="checkbox"]');
-      const devices = roomGroup.querySelectorAll('.device-card');
-      if (!roomToggle) return;
-
-      // Check if all devices are ON/checked (lights, locks, cameras) or at max (thermostats)
-      let allOn = true;
-      devices.forEach((device) => {
-        const type = device.dataset.deviceType;
-        if (type === 'thermostat') {
-          const slider = device.querySelector('input[type="range"]');
-          if (!slider) return;
-          // Consider thermostat "on" if above 60°F (lowest)
-          if (parseInt(slider.value, 10) <= 60) allOn = false;
-        } else {
-          const toggle = device.querySelector('input[type="checkbox"]');
-          if (!toggle || !toggle.checked) allOn = false;
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--sv-bg);
+            color: #FFFFFF;
+            overflow-x: hidden;
         }
-      });
 
-      roomToggle.checked = allOn;
-      roomToggle.setAttribute('aria-checked', allOn);
-    }
-
-    // When room toggle changes, toggle all devices in that room accordingly
-    document.querySelectorAll('.room-group input[type="checkbox"]').forEach((roomToggle) => {
-      roomToggle.addEventListener('change', (e) => {
-        const roomGroup = e.target.closest('.room-group');
-        const devices = roomGroup.querySelectorAll('.device-card');
-        const checked = e.target.checked;
-
-        devices.forEach((device) => {
-          const type = device.dataset.deviceType;
-          if (type === 'thermostat') {
-            const slider = device.querySelector('input[type="range"]');
-            if (!slider) return;
-            // If toggling ON, set thermostat to 72°F, else 60°F (lowest)
-            slider.value = checked ? 72 : 60;
-            slider.setAttribute('aria-valuenow', slider.value);
-            updateDeviceStatus(device);
-          } else {
-            const toggle = device.querySelector('input[type="checkbox"]');
-            if (!toggle) return;
-            toggle.checked = checked;
-            toggle.setAttribute('aria-checked', checked);
-            updateDeviceStatus(device);
-          }
-        });
-      });
-    });
-
-    // Scene presets
-    const scenes = {
-      movieNight: () => {
-        // Living Room: Lights off, Thermostat 70, Locks locked, Cameras on
-        setDeviceState('Living Room', {
-          light: false,
-          thermostat: 70,
-          lock: true,
-          camera: true,
-        });
-        // Bedroom: Lights off, Thermostat 68, Locks locked, Cameras on
-        setDeviceState('Bedroom', {
-          light: false,
-          thermostat: 68,
-          lock: true,
-          camera: true,
-        });
-        // Kitchen: Lights off, Thermostat 65, Locks locked, Cameras off
-        setDeviceState('Kitchen', {
-          light: false,
-          thermostat: 65,
-          lock: true,
-          camera: false,
-        });
-      },
-      awayMode: () => {
-        // All rooms: Lights off, Thermostat 60, Locks locked, Cameras on
-        ['Living Room', 'Bedroom', 'Kitchen'].forEach((room) => {
-          setDeviceState(room, {
-            light: false,
-            thermostat: 60,
-            lock: true,
-            camera: true,
-          });
-        });
-      },
-      goodMorning: () => {
-        // Living Room: Lights on, Thermostat 72, Locks unlocked, Cameras off
-        setDeviceState('Living Room', {
-          light: true,
-          thermostat: 72,
-          lock: false,
-          camera: false,
-        });
-        // Bedroom: Lights on, Thermostat 70, Locks unlocked, Cameras off
-        setDeviceState('Bedroom', {
-          light: true,
-          thermostat: 70,
-          lock: false,
-          camera: false,
-        });
-        // Kitchen: Lights on, Thermostat 70, Locks unlocked, Cameras off
-        setDeviceState('Kitchen', {
-          light: true,
-          thermostat: 70,
-          lock: false,
-          camera: false,
-        });
-      },
-      nightMode: () => {
-        // Living Room: Lights off, Thermostat 65, Locks locked, Cameras on
-        setDeviceState('Living Room', {
-          light: false,
-          thermostat: 65,
-          lock: true,
-          camera: true,
-        });
-        // Bedroom: Lights off, Thermostat 65, Locks locked, Cameras on
-        setDeviceState('Bedroom', {
-          light: false,
-          thermostat: 65,
-          lock: true,
-          camera: true,
-        });
-        // Kitchen: Lights off, Thermostat 60, Locks locked, Cameras off
-        setDeviceState('Kitchen', {
-          light: false,
-          thermostat: 60,
-          lock: true,
-          camera: false,
-        });
-      },
-      party: () => {
-        // Living Room: Lights on, Thermostat 70, Locks unlocked, Cameras off
-        setDeviceState('Living Room', {
-          light: true,
-          thermostat: 70,
-          lock: false,
-          camera: false,
-        });
-        // Bedroom: Lights off, Thermostat 68, Locks locked, Cameras off
-        setDeviceState('Bedroom', {
-          light: false,
-          thermostat: 68,
-          lock: true,
-          camera: false,
-        });
-        // Kitchen: Lights on, Thermostat 70, Locks unlocked, Cameras off
-        setDeviceState('Kitchen', {
-          light: true,
-          thermostat: 70,
-          lock: false,
-          camera: false,
-        });
-      },
-    };
-
-    // Helper to set device states by room and device type states
-    function setDeviceState(room, states) {
-      const roomGroup = [...document.querySelectorAll('.room-group')].find(
-        (group) => group.querySelector('h3').textContent === room
-      );
-      if (!roomGroup) return;
-      const devices = roomGroup.querySelectorAll('.device-card');
-      devices.forEach((device) => {
-        const type = device.dataset.deviceType;
-        if (!(type in states)) return;
-        if (type === 'thermostat') {
-          const slider = device.querySelector('input[type="range"]');
-          if (!slider) return;
-          slider.value = states[type];
-          slider.setAttribute('aria-valuenow', slider.value);
-          updateDeviceStatus(device);
-        } else {
-          const toggle = device.querySelector('input[type="checkbox"]');
-          if (!toggle) return;
-          toggle.checked = states[type];
-          toggle.setAttribute('aria-checked', states[type]);
-          updateDeviceStatus(device);
+        .minimal-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-      });
-      // Update room toggle after changes
-      updateRoomToggle(room);
-    }
 
-    // Scene buttons event listeners
-    document.querySelectorAll('[data-scene]').forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        const sceneName = e.currentTarget.dataset.scene;
-        if (scenes[sceneName]) {
-          scenes[sceneName]();
-          // Update aria-pressed states
-          document.querySelectorAll('[data-scene]').forEach((b) => {
-            b.setAttribute('aria-pressed', 'false');
-          });
-          e.currentTarget.setAttribute('aria-pressed', 'true');
+        .minimal-card:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: var(--sv-blue);
+            transform: translateY(-4px);
         }
-      });
-    });
 
-    // Dark mode toggle (for demonstration, toggles between dark and light)
-    const darkModeBtn = document.getElementById('toggleDarkMode');
-    darkModeBtn.addEventListener('click', () => {
-      if (document.documentElement.classList.contains('dark')) {
-        document.documentElement.classList.remove('dark');
-        document.body.style.backgroundColor = '#121212';
-        document.body.style.color = '#e0e0e0';
-        darkModeBtn.innerHTML = '<i class="fas fa-moon fa-lg"></i>';
-      } else {
-        document.documentElement.classList.add('dark');
-        document.body.style.backgroundColor = '#f9fafb';
-        document.body.style.color = '#111827';
-        darkModeBtn.innerHTML = '<i class="fas fa-sun fa-lg"></i>';
-      }
-    });
+        .hero-gradient {
+            background: radial-gradient(circle at 50% 50%, rgba(79, 70, 229, 0.15) 0%, transparent 60%);
+        }
 
-    // Initialize with dark mode on
-    document.documentElement.classList.add('dark');
-  </script>
- </body>
+        #canvas-wrap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        .cta-button {
+            background: #FFFFFF;
+            color: #000000;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: var(--sv-blue);
+            color: #FFFFFF;
+            box-shadow: 0 0 30px rgba(79, 70, 229, 0.4);
+        }
+
+        /* Pop-up Styles */
+        .glass-popup {
+            background: rgba(10, 10, 11, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: scale(0.9) translateY(20px);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-popup.active {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .fab-trigger {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .fab-trigger:hover {
+            background: var(--sv-blue);
+            border-color: var(--sv-blue);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0A0A0B; }
+        ::-webkit-scrollbar-thumb { background: #2D2D2D; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <div id="canvas-wrap"></div>
+
+    <!-- Floating Trigger -->
+    <button id="menu-trigger" class="fixed top-8 right-8 z-[100] fab-trigger w-12 h-12 rounded-full flex items-center justify-center shadow-2xl">
+        <i data-lucide="menu" id="menu-icon" class="text-white w-5 h-5"></i>
+    </button>
+
+    <!-- Navigation Pop-up Overlay -->
+    <div id="nav-popup" class="fixed inset-0 z-[90] flex items-center justify-center p-6 bg-black/40 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="glass-popup w-full max-w-md p-10 rounded-[2.5rem] text-center shadow-2xl relative">
+            <div class="mb-8 flex justify-center">
+                <div class="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center">
+                    <i data-lucide="audio-lines" class="text-white w-6 h-6"></i>
+                </div>
+            </div>
+            
+            <h3 class="text-2xl font-bold mb-2">Soundverse Portal</h3>
+            <p class="text-gray-400 text-sm mb-8">Access the next generation of AI music production.</p>
+            
+            <div class="space-y-4">
+                <a href="YOUR_SOUNDVERSE_AFFILIATE_URL" target="_blank" class="block w-full py-4 bg-white text-black rounded-2xl font-bold hover:bg-indigo-500 hover:text-white transition-all">
+                    Open Official Site
+                </a>
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="closePopup()" class="py-3 px-4 rounded-xl border border-white/10 text-sm font-medium hover:bg-white/5 transition-colors">
+                        Close Menu
+                    </button>
+                    <a href="#features" onclick="closePopup()" class="py-3 px-4 rounded-xl border border-white/10 text-sm font-medium hover:bg-white/5 transition-colors">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+
+            <div class="mt-8 pt-8 border-t border-white/5 flex justify-center gap-6 text-gray-500">
+                <i data-lucide="twitter" class="w-4 h-4 hover:text-white cursor-pointer"></i>
+                <i data-lucide="instagram" class="w-4 h-4 hover:text-white cursor-pointer"></i>
+                <i data-lucide="github" class="w-4 h-4 hover:text-white cursor-pointer"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <section class="relative min-h-screen flex items-center pt-20 px-6">
+        <div class="absolute inset-0 hero-gradient"></div>
+        
+        <div class="max-w-4xl mx-auto text-center z-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-bold mb-8">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                </span>
+                SOUNDVERSE AFFILIATE PORTAL
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight">
+                Your Personal <br/> <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500 font-black">AI Music Studio</span>
+            </h1>
+            
+            <p class="text-lg md:text-xl text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed">
+                Experience the power of Soundverse. Generate stems, complete tracks, and cinematic scores by simply describing your vision.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="YOUR_SOUNDVERSE_AFFILIATE_URL" target="_blank" class="cta-button px-10 py-4 rounded-full text-lg font-bold">
+                    Start Creating for Free
+                </a>
+                <p class="text-xs text-gray-500 max-w-[200px] text-left">
+                    Trusted by 100k+ producers and content creators.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Section -->
+    <section id="features" class="py-24 px-6 relative z-10 bg-black/50">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Feature 1 -->
+                <div class="minimal-card p-10 rounded-2xl">
+                    <i data-lucide="zap" class="text-indigo-500 w-8 h-8 mb-6"></i>
+                    <h3 class="text-xl font-bold mb-4 text-white">Instant Stems</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Generate high-quality WAV stems for drums, bass, and melody in seconds.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="minimal-card p-10 rounded-2xl">
+                    <i data-lucide="layers" class="text-indigo-500 w-8 h-8 mb-6"></i>
+                    <h3 class="text-xl font-bold mb-4 text-white">Full Length Tracks</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Create complete background music for your YouTube videos or podcasts with ease.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="minimal-card p-10 rounded-2xl">
+                    <i data-lucide="copyright" class="text-indigo-500 w-8 h-8 mb-6"></i>
+                    <h3 class="text-xl font-bold mb-4 text-white">Royalty Free</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Everything you generate is copyright-safe for use across all social platforms.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Explanation -->
+    <section class="py-24 px-6 border-t border-white/5">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold mb-8">Why Soundverse?</h2>
+            <div class="space-y-6 text-gray-400 text-lg">
+                <p>
+                    Soundverse is not just another AI generator. It's an intelligent assistant that understands musical theory, arrangement, and mood. Whether you are a seasoned producer looking for inspiration or a creator who needs unique music, Soundverse delivers studio-grade results.
+                </p>
+                <p>
+                    The platform allows you to use text-to-music, upload reference files, and even use AI to complete a melody you've already started. It bridges the gap between technical skill and creative imagination.
+                </p>
+            </div>
+            
+            <div class="mt-12 p-8 bg-indigo-600/10 border border-indigo-500/20 rounded-2xl flex flex-col md:flex-row items-center gap-8">
+                <div class="flex-1">
+                    <h4 class="text-xl font-bold text-white mb-2">Claim Your Credits</h4>
+                    <p class="text-gray-400 text-sm">Sign up through this link to get started with free generation credits today.</p>
+                </div>
+                <a href="YOUR_SOUNDVERSE_AFFILIATE_URL" target="_blank" class="bg-white text-black px-6 py-3 rounded-xl font-bold whitespace-nowrap">
+                    Claim Free Trial
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-6 border-t border-white/5 text-center">
+        <p class="text-gray-600 text-xs mb-4">
+            Soundverse Partner Program | Independent Affiliate Review & Portal
+        </p>
+        <div class="flex justify-center gap-8 text-gray-500 text-sm">
+            <a href="#" class="hover:text-white transition-colors">Privacy</a>
+            <a href="#" class="hover:text-white transition-colors">Terms</a>
+            <a href="#" class="hover:text-white transition-colors">Contact</a>
+        </div>
+    </footer>
+
+    <script>
+        // Init Icons
+        lucide.createIcons();
+
+        // Pop-up Toggle Logic
+        const menuTrigger = document.getElementById('menu-trigger');
+        const navPopup = document.getElementById('nav-popup');
+        const popupContent = document.querySelector('.glass-popup');
+        const menuIcon = document.getElementById('menu-icon');
+
+        function openPopup() {
+            navPopup.classList.add('opacity-100', 'pointer-events-auto');
+            popupContent.classList.add('active');
+            menuTrigger.style.transform = 'scale(0.8)';
+        }
+
+        function closePopup() {
+            navPopup.classList.remove('opacity-100', 'pointer-events-auto');
+            popupContent.classList.remove('active');
+            menuTrigger.style.transform = 'scale(1)';
+        }
+
+        menuTrigger.addEventListener('click', () => {
+            if (popupContent.classList.contains('active')) {
+                closePopup();
+            } else {
+                openPopup();
+            }
+        });
+
+        // Close on backdrop click
+        navPopup.addEventListener('click', (e) => {
+            if (e.target === navPopup) closePopup();
+        });
+
+        // Minimal Wave Animation (Three.js)
+        let scene, camera, renderer, wave;
+        const container = document.getElementById('canvas-wrap');
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 5;
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            container.appendChild(renderer.domElement);
+
+            const geometry = new THREE.PlaneGeometry(15, 15, 60, 60);
+            const material = new THREE.MeshBasicMaterial({
+                color: 0x4F46E5,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.1
+            });
+            wave = new THREE.Mesh(geometry, material);
+            wave.rotation.x = -Math.PI / 2.5;
+            wave.position.y = -1;
+            scene.add(wave);
+
+            animate();
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = Date.now() * 0.001;
+            
+            const positions = wave.geometry.attributes.position.array;
+            for (let i = 0; i < positions.length; i += 3) {
+                const x = positions[i];
+                const y = positions[i + 1];
+                positions[i + 2] = Math.sin(x * 0.5 + time) * 0.3 + Math.cos(y * 0.3 + time) * 0.3;
+            }
+            wave.geometry.attributes.position.needsUpdate = true;
+            
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        init();
+    </script>
+</body>
 </html>
